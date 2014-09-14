@@ -1,0 +1,9 @@
+OneJar: SCC
+main: org.litesoft.scc.Updater
+
+dependencies:
+- ../LiteSoftServerUtils
+
+resources: 
+- LICENSE
+
