@@ -6,5 +6,8 @@ package org.litesoft.scc;
 public interface SCCadapter {
     String sccDirectoryName();
 
-    boolean process( String pRelativePath );
+    /**
+     * return true if there was an error
+     */
+    boolean process( String pRelativePath, DirectoryResults pResults );
 }

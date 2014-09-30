@@ -1,6 +1,5 @@
 package org.litesoft.scc;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -13,70 +12,20 @@ import java.util.*;
  * <p/>
  * Created by markc on 9/14/14.
  */
-// todo: SCCadapter convert to abstract class adding the runCommand and Gobbler stuff
-public class SCCadapterSVN implements SCCadapter {
+public class SCCadapterSVN extends AbstractSCCadapter {
     @Override
     public String sccDirectoryName() {
         return ".svn";
     }
 
     @Override
-    public boolean process( String pRelativePath ) {
+    public boolean process( String pRelativePath, DirectoryResults pResults ) {
         System.out.print( " - svn" );
-        List<String> zLines = runCommand( "svn -q update" );
-        return false;   // todo: XXX
-    }
-
-    private List<String> runCommand( String pCommand ) {
-        try {
-            Process proc = Runtime.getRuntime().exec( pCommand );
-            // any error message?
-            StreamGobbler errorGobbler = new
-                    StreamGobbler(proc.getErrorStream(), "ERROR");
-
-            // any output?
-            StreamGobbler outputGobbler = new
-                    StreamGobbler(proc.getInputStream(), "OUTPUT");
-
-            // kick them off
-            errorGobbler.start();
-            outputGobbler.start();
-
-            // any error???
-            int exitVal = proc.waitFor();
-            System.out.println("ExitValue: " + exitVal);
+        List<String> zLines = runCommand( pResults, "svn -q update" );
+        if ( zLines == null ) {
+            return true;  // Error occurred
         }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        catch ( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // todo: Collect and not print out
-    static class StreamGobbler extends Thread {
-        InputStream is;
-        String type;
-
-        StreamGobbler( InputStream is, String type ) {
-            this.is = is;
-            this.type = type;
-        }
-
-        public void run() {
-            try {
-                InputStreamReader isr = new InputStreamReader( is );
-                BufferedReader br = new BufferedReader( isr );
-                String line = null;
-                while ( (line = br.readLine()) != null ) {
-                    System.out.println( type + ">" + line );
-                }
-            }
-            catch ( IOException ioe ) {
-                ioe.printStackTrace();
-            }
-        }
+        pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
+        return false;   // No Error
     }
 }

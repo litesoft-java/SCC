@@ -23,6 +23,7 @@ import java.util.*;
 public class DirectoryProcessor {
     private final String mRelativePath;
     private final SCCadapter[] mSCCadapters;
+    private final DirectoryResults mResults = new DirectoryResults();
 
     public DirectoryProcessor( SCCadapter[] pSCCadapters, String pRelativePath ) {
         mSCCadapters = pSCCadapters;
@@ -32,7 +33,7 @@ public class DirectoryProcessor {
     public void process( List<DirectoryProcessor> pCollector ) {
         for ( SCCadapter zSCCadapter : mSCCadapters ) {
             if ( has( zSCCadapter.sccDirectoryName()) ) {
-                storeIfIssue( pCollector, zSCCadapter.process( mRelativePath ) );
+                storeIfIssue( pCollector, zSCCadapter.process( mRelativePath, mResults ) );
                 return;
             }
         }
@@ -62,10 +63,10 @@ public class DirectoryProcessor {
     }
 
     public void printDirty() {
-        // todo: XXX
+        mResults.printDirty();
     }
 
     public void printError() {
-        // todo: XXX
+        mResults.printError();
     }
 }

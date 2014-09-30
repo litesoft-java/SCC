@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Starting from the current directory
  * Depth first traversal of directories looking for a git (".git") or svn (".svn") directory.
- * Foreach found run the appropriate command via exec. For git: "git pull", For svn: "svn update".
+ * Foreach found run the appropriate command via exec. For git: "git --no-pager pull", For svn: "svn -q update".
  * Show path where the potential update will occurred.
  * If any updates and updated successfully print "Updated"
  * If no updates print nothing.
