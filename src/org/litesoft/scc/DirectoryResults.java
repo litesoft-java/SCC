@@ -8,18 +8,21 @@ public class DirectoryResults {
     private List<String> mDirties = new ArrayList<>();
     private List<String> mErrors = new ArrayList<>();
 
-    public void printDirty() {
-        print( mDirties );
+    public void printDirty( String pRelativePath ) {
+        print( pRelativePath, mDirties );
     }
 
-    private void print( List<String> pList ) {
-        for ( String zLine : pList ) {
-            System.out.println( zLine );
+    private void print( String pRelativePath, List<String> pList ) {
+        if ( !pList.isEmpty() ) {
+            System.out.println( "From: " + pRelativePath );
+            for ( String zLine : pList ) {
+                System.out.println( zLine );
+            }
         }
     }
 
-    public void printError() {
-        print( mErrors );
+    public void printError( String pRelativePath ) {
+        print( pRelativePath, mErrors );
     }
 
     public void addError( String pLine ) {

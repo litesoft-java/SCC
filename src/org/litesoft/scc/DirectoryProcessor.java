@@ -17,23 +17,23 @@ import java.util.*;
  * If dirty than store the fact this directory needs committing/reverting.
  * <p/>
  * If no .git or .svn directory found, apply this process to all the children directories.
- * <p/>
- * Created by markc on 9/14/14.
  */
 public class DirectoryProcessor {
-    private final String mRelativePath;
+    private final Processor mProcessor;
     private final SCCadapter[] mSCCadapters;
+    private final String mRelativePath;
     private final DirectoryResults mResults = new DirectoryResults();
 
-    public DirectoryProcessor( SCCadapter[] pSCCadapters, String pRelativePath ) {
+    public DirectoryProcessor( Processor pProcessor, SCCadapter[] pSCCadapters, String pRelativePath ) {
+        mProcessor = pProcessor;
         mSCCadapters = pSCCadapters;
         mRelativePath = pRelativePath;
     }
 
     public void process( List<DirectoryProcessor> pCollector ) {
         for ( SCCadapter zSCCadapter : mSCCadapters ) {
-            if ( has( zSCCadapter.sccDirectoryName()) ) {
-                storeIfIssue( pCollector, zSCCadapter.process( mRelativePath, mResults ) );
+            if ( has( zSCCadapter.sccDirectoryName() ) ) {
+                storeIfIssue( pCollector, zSCCadapter.update( mRelativePath, mResults ) );
                 return;
             }
         }
@@ -43,7 +43,7 @@ public class DirectoryProcessor {
     private void processChildren( List<DirectoryProcessor> pCollector ) {
         String[] zDirectoryNames = new File( mRelativePath ).list( FileUtils.DIRECTORIES_ONLY );
         for ( String zDirectoryName : zDirectoryNames ) {
-            new DirectoryProcessor( mSCCadapters, mRelativePath + "/" + zDirectoryName ).process( pCollector );
+            new DirectoryProcessor( mProcessor, mSCCadapters, mRelativePath + "/" + zDirectoryName ).process( pCollector );
         }
     }
 
@@ -63,10 +63,10 @@ public class DirectoryProcessor {
     }
 
     public void printDirty() {
-        mResults.printDirty();
+        mResults.printDirty( mRelativePath );
     }
 
     public void printError() {
-        mResults.printError();
+        mResults.printError( mRelativePath );
     }
 }

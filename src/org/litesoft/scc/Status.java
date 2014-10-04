@@ -11,20 +11,20 @@ package org.litesoft.scc;
  * If there is no error than we run the status (git status or svn status).
  * If dirty than report at the end the directories needing committing/reverting.
  */
-public class Updater extends AbstractSCC_CLI {
+public class Status extends AbstractSCC_CLI {
 
     public static final int EXIT_VALUE_SUCCESS = 0;
     public static final int EXIT_VALUE_ATTENTION_NEEDED = 1;
     public static final int EXIT_VALUE_EXCEPTION = 2;
 
-    public Updater() {
-        super( SCCadapter.UPDATE
+    public Status() {
+        super( SCCadapter.STATUS
 //                , new SCCadapterSVN()
                 , new SCCadapterGit()
         );
     }
 
     public static void main( String[] args ) {
-        System.exit( new Updater().process() );
+        System.exit( new Status().process() );
     }
 }

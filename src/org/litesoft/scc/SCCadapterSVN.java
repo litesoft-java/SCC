@@ -13,15 +13,25 @@ import java.util.*;
  * Created by markc on 9/14/14.
  */
 public class SCCadapterSVN extends AbstractSCCadapter {
-    @Override
-    public String sccDirectoryName() {
-        return ".svn";
+    public SCCadapterSVN() {
+        super( "svn" );
     }
 
     @Override
-    public boolean process( String pRelativePath, DirectoryResults pResults ) {
-        System.out.print( " - svn" );
-        List<String> zLines = runCommand( pResults, "svn -q update" );
+    public boolean status( String pRelativePath, DirectoryResults pResults ) {
+        reportProgress();
+        List<String> zLines = runCommand( pResults, "-q update" );
+        if ( zLines == null ) {
+            return true;  // Error occurred
+        }
+        pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
+        return false;   // No Error
+    }
+
+    @Override
+    public boolean update( String pRelativePath, DirectoryResults pResults ) {
+        reportProgress();
+        List<String> zLines = runCommand( pResults, "-q update" );
         if ( zLines == null ) {
             return true;  // Error occurred
         }

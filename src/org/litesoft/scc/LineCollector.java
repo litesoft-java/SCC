@@ -2,7 +2,6 @@ package org.litesoft.scc;
 
 import org.litesoft.commonfoundation.base.*;
 
-import java.io.*;
 import java.util.*;
 
 /**

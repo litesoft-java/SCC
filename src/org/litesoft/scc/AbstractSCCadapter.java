@@ -1,13 +1,34 @@
 package org.litesoft.scc;
 
+import org.litesoft.commonfoundation.base.*;
 import org.litesoft.server.util.*;
 
 import java.io.*;
 import java.util.*;
 
 public abstract class AbstractSCCadapter implements SCCadapter {
-    protected List<String> runCommand( DirectoryResults pResults, String pCommand ) {
-        return new CommandExecutor( pResults ).invoke( pCommand );
+    private final String mAppName;
+
+    protected AbstractSCCadapter( String pAppName ) {
+        mAppName = Confirm.significant( "AppName", pAppName );
+    }
+
+    @Override
+    public final String sccAppName() {
+        return mAppName;
+    }
+
+    @Override
+    public String sccDirectoryName() {
+        return "." + mAppName;
+    }
+
+    protected void reportProgress() {
+        System.out.print( " - " + mAppName );
+    }
+
+    protected List<String> runCommand( DirectoryResults pResults, String pParams ) {
+        return new CommandExecutor( pResults ).invoke( mAppName + " " + pParams );
     }
 
     public static class StreamCollector extends Thread {
@@ -36,8 +57,8 @@ public abstract class AbstractSCCadapter implements SCCadapter {
     }
 
     private static class CommandExecutor {
-        private final LineCollector zErrors = new LineCollector( "ERROR" );
         private final LineCollector zOutput = new LineCollector( "OUTPUT" );
+        private final LineCollector zErrors = new LineCollector( "ERROR" );
         private final DirectoryResults mResults;
 
         public CommandExecutor( DirectoryResults pResults ) {
