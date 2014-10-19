@@ -33,7 +33,7 @@ public class DirectoryProcessor {
     public void process( List<DirectoryProcessor> pCollector ) {
         for ( SCCadapter zSCCadapter : mSCCadapters ) {
             if ( has( zSCCadapter.sccDirectoryName() ) ) {
-                storeIfIssue( pCollector, zSCCadapter.update( mRelativePath, mResults ) );
+                storeIfIssue( pCollector, mProcessor.process( zSCCadapter, mRelativePath, mResults ) );
                 return;
             }
         }
