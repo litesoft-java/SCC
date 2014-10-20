@@ -13,10 +13,6 @@ package org.litesoft.scc;
  */
 public class Status extends AbstractSCC_CLI {
 
-    public static final int EXIT_VALUE_SUCCESS = 0;
-    public static final int EXIT_VALUE_ATTENTION_NEEDED = 1;
-    public static final int EXIT_VALUE_EXCEPTION = 2;
-
     public Status() {
         super( SCCadapter.STATUS
 //                , new SCCadapterSVN()

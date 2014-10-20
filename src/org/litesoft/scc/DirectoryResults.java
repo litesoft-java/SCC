@@ -5,24 +5,24 @@ import org.litesoft.commonfoundation.typeutils.*;
 import java.util.*;
 
 public class DirectoryResults {
-    private List<String> mDirties = new ArrayList<>();
-    private List<String> mErrors = new ArrayList<>();
+    private final String mRelativePath;
+    private LineTracker mDirties = new LineTracker();
+    private LineTracker mErrors = new LineTracker();
 
-    public void printDirty( String pRelativePath ) {
-        print( pRelativePath, mDirties );
+    public DirectoryResults( String pRelativePath ) {
+        mRelativePath = pRelativePath;
     }
 
-    private void print( String pRelativePath, List<String> pList ) {
-        if ( !pList.isEmpty() ) {
-            System.out.println( "From: " + pRelativePath );
-            for ( String zLine : pList ) {
-                System.out.println( zLine );
-            }
-        }
+    public String getRelativePath() {
+        return mRelativePath;
     }
 
-    public void printError( String pRelativePath ) {
-        print( pRelativePath, mErrors );
+    public void printDirty() {
+        mDirties.print( mRelativePath );
+    }
+
+    public void printError() {
+        mErrors.print( mRelativePath );
     }
 
     public void addError( String pLine ) {
@@ -31,16 +31,42 @@ public class DirectoryResults {
 
     public void addError( Exception pException ) {
         String zLines = Throwables.printStackTraceToString( pException );
-        Lists.append( mErrors, Strings.stringToLines( zLines ) );
+        mErrors.add( Strings.stringToLines( zLines ) );
     }
 
     public void addErrors( LineCollector pCollector ) {
-        pCollector.addTo( mErrors );
+        pCollector.addTo( mErrors.mLines );
     }
 
     public void addDirties( List<String> pLines ) {
-        for ( String zLine : pLines ) {
-            mDirties.add( zLine );
+        mDirties.add( pLines );
+    }
+
+    private static class LineTracker {
+        private final List<String> mLines = new ArrayList<>();
+        private boolean mAdded;
+
+        public void print( String mRelativePath ) {
+            if ( mAdded ) {
+                System.out.println( "From: " + mRelativePath );
+                for ( String zLine : mLines ) {
+                    System.out.println( zLine );
+                }
+            }
+        }
+
+        public void add( String... pLines ) {
+            mAdded = true;
+            for ( String zLine : pLines ) {
+                mLines.add( zLine );
+            }
+        }
+
+        public void add( List<String> pLines ) {
+            mAdded = true;
+            for ( String zLine : pLines ) {
+                mLines.add( zLine );
+            }
         }
     }
 }

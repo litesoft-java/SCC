@@ -66,9 +66,10 @@ public abstract class AbstractSCCadapter implements SCCadapter {
         }
 
         public List<String> invoke( String pCommand ) {
+            warmup(); /// TODO: WTF
 
             try {
-                Process proc = Runtime.getRuntime().exec( pCommand );
+                Process proc = Runtime.getRuntime().exec( pCommand, null, new File( mResults.getRelativePath() ) );
                 new StreamCollector( zOutput, proc.getInputStream() ).start();
                 new StreamCollector( zErrors, proc.getErrorStream() ).start();
 
@@ -84,6 +85,21 @@ public abstract class AbstractSCCadapter implements SCCadapter {
                 mResults.addError( e );
             }
             return null;
+        }
+
+        private void warmup() {
+            try {
+                Process proc = Runtime.getRuntime().exec( "git", null, new File( mResults.getRelativePath() ) );
+                new StreamCollector( new LineCollector( "OUTPUT" ), proc.getInputStream() ).start();
+                new StreamCollector( new LineCollector( "ERROR" ), proc.getErrorStream() ).start();
+                proc.waitFor();
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
         }
 
         private void dumpLines() {

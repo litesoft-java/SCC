@@ -22,18 +22,19 @@ public class DirectoryProcessor {
     private final Processor mProcessor;
     private final SCCadapter[] mSCCadapters;
     private final String mRelativePath;
-    private final DirectoryResults mResults = new DirectoryResults();
+    private final DirectoryResults mResults;
 
     public DirectoryProcessor( Processor pProcessor, SCCadapter[] pSCCadapters, String pRelativePath ) {
         mProcessor = pProcessor;
         mSCCadapters = pSCCadapters;
         mRelativePath = pRelativePath;
+        mResults = new DirectoryResults( pRelativePath );
     }
 
     public void process( List<DirectoryProcessor> pCollector ) {
         for ( SCCadapter zSCCadapter : mSCCadapters ) {
             if ( has( zSCCadapter.sccDirectoryName() ) ) {
-                storeIfIssue( pCollector, mProcessor.process( zSCCadapter, mRelativePath, mResults ) );
+                storeIfUnsuccessful( pCollector, mProcessor.process( zSCCadapter, mResults ) );
                 return;
             }
         }
@@ -55,18 +56,18 @@ public class DirectoryProcessor {
         return isFound;
     }
 
-    private void storeIfIssue( List<DirectoryProcessor> pCollector, boolean pHasIssue ) {
+    private void storeIfUnsuccessful( List<DirectoryProcessor> pCollector, CommandResults pCommandResults ) {
         System.out.println();
-        if ( pHasIssue ) {
+        if ( CommandResults.Success != pCommandResults ) {
             pCollector.add( this );
         }
     }
 
     public void printDirty() {
-        mResults.printDirty( mRelativePath );
+        mResults.printDirty();
     }
 
     public void printError() {
-        mResults.printError( mRelativePath );
+        mResults.printError();
     }
 }

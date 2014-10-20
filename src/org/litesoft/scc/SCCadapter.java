@@ -3,15 +3,15 @@ package org.litesoft.scc;
 public interface SCCadapter {
     public static final Processor STATUS = new Processor() {
         @Override
-        public boolean process( SCCadapter pSCCadapter, String pRelativePath, DirectoryResults pResults ) {
-            return pSCCadapter.status( pRelativePath, pResults );
+        public CommandResults process( SCCadapter pSCCadapter, DirectoryResults pResults ) {
+            return pSCCadapter.status( pResults );
         }
     };
 
     public static final Processor UPDATE = new Processor() {
         @Override
-        public boolean process( SCCadapter pSCCadapter, String pRelativePath, DirectoryResults pResults ) {
-            return pSCCadapter.update( pRelativePath, pResults );
+        public CommandResults process( SCCadapter pSCCadapter, DirectoryResults pResults ) {
+            return pSCCadapter.update( pResults );
         }
     };
 
@@ -19,13 +19,7 @@ public interface SCCadapter {
 
     String sccDirectoryName();
 
-    /**
-     * return true if there was an error
-     */
-    boolean status( String pRelativePath, DirectoryResults pResults );
+    CommandResults status( DirectoryResults pResults );
 
-    /**
-     * return true if there was an error
-     */
-    boolean update( String pRelativePath, DirectoryResults pResults );
+    CommandResults update( DirectoryResults pResults );
 }

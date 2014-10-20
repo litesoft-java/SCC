@@ -2,30 +2,40 @@ package org.litesoft.scc;
 
 import java.util.*;
 
+import static org.litesoft.scc.CommandResults.*;
+import static org.litesoft.scc.CommandResults.Error;
+
 public class SCCadapterGit extends AbstractSCCadapter {
     public SCCadapterGit() {
         super( "git" );
     }
 
     @Override
-    public boolean status( String pRelativePath, DirectoryResults pResults ) {
+    public CommandResults status( DirectoryResults pResults ) {
         reportProgress();
         List<String> zLines = runCommand( pResults, "status" );
         if ( zLines == null ) {
-            return true;  // Error occurred
+            return Error;
         }
         pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
-        return false;   // No Error
+        return Dirty;
     }
 
     @Override
-    public boolean update( String pRelativePath, DirectoryResults pResults ) {
+    public CommandResults update( DirectoryResults pResults ) {
         reportProgress();
         List<String> zLines = runCommand( pResults, "--no-pager pull" );
         if ( zLines == null ) {
-            return true;  // Error occurred
+            return Error;
         }
-        pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
-        return false;   // No Error
+        if ( alreadyUpToDate( zLines ) ) {
+            return Success;
+        }
+        pResults.addDirties( zLines );
+        return Dirty;
+    }
+
+    private boolean alreadyUpToDate( List<String> pLines ) {
+        return (pLines.size() == 1) && "Already up-to-date.".equals( pLines.get( 0 ) );
     }
 }

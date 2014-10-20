@@ -2,6 +2,8 @@ package org.litesoft.scc;
 
 import java.util.*;
 
+import static org.litesoft.scc.CommandResults.*;
+
 /**
  * For svn: "svn update".
  * If any updates and updated successfully print "Updated"
@@ -18,24 +20,24 @@ public class SCCadapterSVN extends AbstractSCCadapter {
     }
 
     @Override
-    public boolean status( String pRelativePath, DirectoryResults pResults ) {
+    public CommandResults status( DirectoryResults pResults ) {
         reportProgress();
         List<String> zLines = runCommand( pResults, "-q update" );
         if ( zLines == null ) {
-            return true;  // Error occurred
+            return Error;
         }
         pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
-        return false;   // No Error
+        return Dirty;
     }
 
     @Override
-    public boolean update( String pRelativePath, DirectoryResults pResults ) {
+    public CommandResults update( DirectoryResults pResults ) {
         reportProgress();
         List<String> zLines = runCommand( pResults, "-q update" );
         if ( zLines == null ) {
-            return true;  // Error occurred
+            return Error;
         }
         pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
-        return false;   // No Error
+        return Dirty;
     }
 }
