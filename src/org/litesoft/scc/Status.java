@@ -15,8 +15,8 @@ public class Status extends AbstractSCC_CLI {
 
     public Status() {
         super( SCCadapter.STATUS
-//                , new SCCadapterSVN()
-                , new SCCadapterGit()
+                , new SCCadapterSVN()
+//                , new SCCadapterGit()
         );
     }
 

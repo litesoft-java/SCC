@@ -195,7 +195,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="SCC" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -217,30 +223,6 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
-    </library>
-    <library name="AWSsdk">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aspectjrt-1.6.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aspectjweaver.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aws-java-sdk-1.6.5.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aws-java-sdk-flow-build-tools-1.6.5.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/freemarker-2.3.18.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/jackson-annotations-2.1.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/jackson-core-2.1.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/jackson-databind-2.1.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/mail-1.4.3.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/spring-beans-3.0.7.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/spring-context-3.0.7.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/spring-core-3.0.7.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/stax-1.2.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/stax-api-1.0.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aws-java-sdk-1.6.5-javadoc.zip!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/libs/AWS_SDK/aws-java-sdk-1.6.5-sources.zip!/" />
-      </SOURCES>
     </library>
   </component>
 </project>

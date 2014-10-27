@@ -22,10 +22,18 @@ public class SCCadapterSVN extends AbstractSCCadapter {
     @Override
     public CommandResults status( DirectoryResults pResults ) {
         reportProgress();
-        List<String> zLines = runCommand( pResults, "-q update" );
+        List<String> zLines = runCommand( pResults, "-u status" );
         if ( zLines == null ) {
             return Error;
         }
+//    *      975   Java/ScarPlus/src/com/esotericsoftware/scar/Scar.java
+//    M              975   Java/KeyHole/KeyHole.ipr
+//    M              975   Java/DATT/DATT.ipr
+//    ?                    Java/DATT/src/DiagramTest
+//    M              975   MongoDB.txt
+//    Status against revision:    976
+//
+//    Status against revision:     32
         pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
         return Dirty;
     }
@@ -33,10 +41,16 @@ public class SCCadapterSVN extends AbstractSCCadapter {
     @Override
     public CommandResults update( DirectoryResults pResults ) {
         reportProgress();
-        List<String> zLines = runCommand( pResults, "-q update" );
+        List<String> zLines = runCommand( pResults, "update" );
         if ( zLines == null ) {
             return Error;
         }
+//    Updating '.':
+//    At revision 32.
+//
+//    Updating '.':
+//    U    Java/ScarPlus/src/com/esotericsoftware/scar/Scar.java
+//    Updated to revision 976.
         pResults.addDirties( zLines ); // TODO: Process Output to create Dirties in Results
         return Dirty;
     }

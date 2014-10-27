@@ -66,7 +66,7 @@ public abstract class AbstractSCCadapter implements SCCadapter {
         }
 
         public List<String> invoke( String pCommand ) {
-            warmup(); /// TODO: WTF
+//            warmup(); /// TODO: WTF
 
             try {
                 Process proc = Runtime.getRuntime().exec( pCommand, null, new File( mResults.getRelativePath() ) );

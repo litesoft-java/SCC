@@ -15,8 +15,8 @@ public class Updater extends AbstractSCC_CLI {
 
     public Updater() {
         super( SCCadapter.UPDATE
-//                , new SCCadapterSVN()
-                , new SCCadapterGit()
+                , new SCCadapterSVN()
+//                , new SCCadapterGit()
         );
     }
 

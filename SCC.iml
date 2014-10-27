@@ -32,7 +32,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="AWSsdk" level="project" />
     <orderEntry type="library" name="3rdParty" level="project" />
     <orderEntry type="module-library">
       <library name="JUnit4">
